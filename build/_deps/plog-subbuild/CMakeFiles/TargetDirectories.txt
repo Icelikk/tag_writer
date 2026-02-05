@@ -1,0 +1,3 @@
+/home/administrator/tag_writer/build/_deps/plog-subbuild/CMakeFiles/plog-populate.dir
+/home/administrator/tag_writer/build/_deps/plog-subbuild/CMakeFiles/edit_cache.dir
+/home/administrator/tag_writer/build/_deps/plog-subbuild/CMakeFiles/rebuild_cache.dir

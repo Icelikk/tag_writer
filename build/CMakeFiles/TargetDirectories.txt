@@ -1,0 +1,5 @@
+/home/administrator/tag_writer/build/CMakeFiles/TagsWriter.dir
+/home/administrator/tag_writer/build/CMakeFiles/edit_cache.dir
+/home/administrator/tag_writer/build/CMakeFiles/rebuild_cache.dir
+/home/administrator/tag_writer/build/_deps/plog-build/CMakeFiles/edit_cache.dir
+/home/administrator/tag_writer/build/_deps/plog-build/CMakeFiles/rebuild_cache.dir

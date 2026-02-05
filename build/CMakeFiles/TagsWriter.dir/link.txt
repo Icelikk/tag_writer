@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/TagsWriter.dir/src/test_connection.cpp.o -o TagsWriter  -lpqxx -lpq 

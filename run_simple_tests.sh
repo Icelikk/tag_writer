@@ -6,16 +6,11 @@ echo ""
 
 
 EXCEL_FILE="results.csv"
-echo "Тест;Тегов;Период(мс);Время(сек);Пакетов;Записей;Время_общее(мс);Скорость(зап/сек);Среднее_время(мс);Превышение" > $EXCEL_FILE
+echo "Тест;Тегов;Период(мс);Время(сек);Пакетов;Записей;Время_общее(мс);Скорость(зап/сек);Среднее_время(мс);Превышение;Мин время записи;Макс время записи;Средневадратичное" > $EXCEL_FILE
 
 
 TESTS=(
-    "1000 100 0"
-    "500 100 5" 
-    "1000 100 5"
-    "1000 200 5"
-    "5000 500 10"
-    "10000 1000 15"
+    "1000 100 1800"
     
 )
 
@@ -41,19 +36,18 @@ for test in "${TESTS[@]}"; do
     TOTAL_PACKETS=$(tail -10 "$LOG_FILE" | grep "TOTAL_PACKETS=" | tail -1 | cut -d'=' -f2)
     TOTAL_RECORDS=$(tail -10 "$LOG_FILE" | grep "TOTAL_RECORDS=" | tail -1 | cut -d'=' -f2)
     TOTAL_TIME_MS=$(tail -10 "$LOG_FILE" | grep "TOTAL_TIME_MS=" | tail -1 | cut -d'=' -f2)
-    
-    
+    TIME_MAX=$(tail -10 "$LOG_FILE"| grep "TIME_MAX=" | tail -1| cut -d'=' -f2)
+    TIME_MIN=$(tail -10 "$LOG_FILE"| grep "TIME_MIN=" | tail -1| cut -d'=' -f2)
+    TIME_STDDEV=$(tail -10 "$LOG_FILE"| grep "TIME_STDDEV" | tail -1| cut -d'=' -f2)
+    AVG_TIME=$(grep "TIME_AVG=" "$LOG_FILE" | tail -1 | cut -d'=' -f2)
+
     if [[ -n "$WORK_TIME_SEC" && "$WORK_TIME_SEC" -gt 0 ]]; then
         SPEED=$((TOTAL_RECORDS / WORK_TIME_SEC))
     else
         SPEED=0
     fi
    
-    if [[ -n "$TOTAL_PACKETS" && "$TOTAL_PACKETS" -gt 0 ]]; then
-        AVG_TIME=$((TOTAL_TIME_MS / TOTAL_PACKETS))
-    else
-        AVG_TIME=0
-    fi
+ 
     
     
     if [[ $AVG_TIME -gt $period ]]; then
@@ -63,7 +57,7 @@ for test in "${TESTS[@]}"; do
     fi
     
  
-    echo "$test_num;$tags;$period;$WORK_TIME_SEC;$TOTAL_PACKETS;$TOTAL_RECORDS;$TOTAL_TIME_MS;$SPEED;$AVG_TIME;$EXCEED" >> $EXCEL_FILE
+    echo "$test_num;$tags;$period;$WORK_TIME_SEC;$TOTAL_PACKETS;$TOTAL_RECORDS;$TOTAL_TIME_MS;$SPEED;$AVG_TIME;$EXCEED;$TIME_MIN;$TIME_MAX;$TIME_STDDEV" >> $EXCEL_FILE
     
     echo "  Успешно! Пакетов: $TOTAL_PACKETS, Скорость: $SPEED зап/сек"
     echo ""
