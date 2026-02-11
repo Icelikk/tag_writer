@@ -10,7 +10,7 @@ echo "Тест;Тегов;Период(мс);Время(сек);Пакетов;�
 
 
 TESTS=(
-    "1000 100 1800"
+    "10000 1000 1800"
     
 )
 
@@ -26,7 +26,7 @@ for test in "${TESTS[@]}"; do
     LOG_FILE="test_${tags}_${period}_${time}.log"
     
     
-    echo "Запуск: ./build/TagsWriter $tags $period $time"
+    echo "Запуск: ./TagsWriter $tags $period $time"
     ./build/TagsWriter $tags $period $time > "$LOG_FILE" 2>&1
     
 
