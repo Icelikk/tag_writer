@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  db:
+    image: registry.astralinux.ru/library/astra/ubi18-postgresql15:1.8.5
+    container_name: dev1_pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}       
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres} 
+      POSTGRES_DB: ${DB_NAME:-Guts}            
+    volumes:
+      - pg_data:/var/lib/postgresql/data        
+    ports:
+      - "5432:5432"     
+    networks:
+      - tag_network
+
+  dev:
+    build:
+      context: .          
+      dockerfile: dockerfile.dev
+    container_name: dev3_dev
+    depends_on:
+      - db                
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-Guts}
+    volumes:
+      - .:/app            
+    working_dir: /app      
+    stdin_open: true      
+    tty: true             
+    command: /bin/bash     
+    networks:
+      - tag_network
+
+
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile.app
+  #   container_name: d2-app
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-mark28102003}@db:5432/${DB_NAME:-Guts}
+  #   networks:
+  #     - tag_network
+  #   restart: unless-stopped
+
+networks:
+  tag_network:
+    driver: bridge
+
+volumes:
+  pg_data:
