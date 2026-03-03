@@ -15,6 +15,9 @@ services:
       - "5432:5432"     
     networks:
       - tag_network
+    volumes:
+    - pg_data:/var/lib/postgresql/data
+    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   dev:
     build:
@@ -35,18 +38,18 @@ services:
       - tag_network
 
 
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: dockerfile.app
-  #   container_name: d2-app
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-mark28102003}@db:5432/${DB_NAME:-Guts}
-  #   networks:
-  #     - tag_network
-  #   restart: unless-stopped
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile.app
+    container_name: d2_app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-Guts}
+    networks:
+      - tag_network
+    restart: unless-stopped
 
 networks:
   tag_network:

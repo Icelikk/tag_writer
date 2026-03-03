@@ -6,8 +6,8 @@ DURATION=60
 THRESHOLD=10
 DB_NAME="Guts"
 DB_USER="postgres"
-DB_PASS="mark28102003"
-DB_HOST="localhost"
+DB_PASS="postgres"
+DB_HOST="db"
 
 opt_results="optimization_results.csv"
 echo "period_ms,max_tags,size_bytes" > "$opt_results"

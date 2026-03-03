@@ -12,10 +12,10 @@
 int main(int argc,char* argv[]) {
      plog::init(plog::debug, "TagsWriter.log");
     std::string conn_info = 
-        "host=localhost "
+        "host=db "
         "dbname=Guts "
         "user=postgres "
-        "password=mark28102003";
+        "password=postgres";
     int period_ms=100;
     int count_tags=1000;
     int work_time=0;    
