@@ -4,7 +4,7 @@ test_connection
 *.o
 *.log
 *.csv
-
+*txt
 test_*.log
 results.csv
 test_results.txt
