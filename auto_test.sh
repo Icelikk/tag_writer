@@ -34,7 +34,7 @@ for period in "${PERIODS[@]}"; do
         log_file="test_p${period}_t${tags}.log"
         
 
-        timeout $((DURATION + 10)) ./build/TagsWriter "$tags" "$period" "$DURATION" > "$log_file" 2>&1
+        timeout $((DURATION + 10)) /usr/local/bin/TagsWriter "$tags" "$period" "$DURATION" > "$log_file" 2>&1
         exit_code=$?
         
         if [ $exit_code -ne 0 ] && [ $exit_code -ne 124 ]; then
