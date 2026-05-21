@@ -6,42 +6,39 @@ services:
     container_name: dev1_pg
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DB_USER:-postgres}       
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres} 
-      POSTGRES_DB: ${DB_NAME:-Guts}            
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-Guts}
     volumes:
-      - pg_data:/var/lib/postgresql/data        
+      - pg_data:/var/lib/postgresql/data
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"     
+      - "5432:5432"
     networks:
       - tag_network
-    volumes:
-    - pg_data:/var/lib/postgresql/data
-    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   dev:
     build:
-      context: .          
-      dockerfile: dockerfile.dev
+      context: .
+      dockerfile: docker/dockerfile.dev
     container_name: dev3_dev
     depends_on:
-      - db                
+      - db
     environment:
       DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-Guts}
     volumes:
-      - .:/app            
-    working_dir: /app      
-    stdin_open: true      
-    tty: true             
-    command: /bin/bash     
+      - .:/app
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: /bin/bash
     networks:
       - tag_network
-
 
   app:
     build:
       context: .
-      dockerfile: dockerfile.app
+      dockerfile: docker/dockerfile.app
     container_name: d2_app
     depends_on:
       - db
