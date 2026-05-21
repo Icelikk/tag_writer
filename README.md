@@ -16,7 +16,11 @@ d2_app сразу начинает писать в PG при запуске,по
 
 ```bash
 docker exec -it dev3_dev bash
-cd /app
+cd /build
+cmake ..
+make
+cd /app/scripts
+./auto_test.sh
 
 ./auto_test.sh              # полный цикл тестирования
 ```
